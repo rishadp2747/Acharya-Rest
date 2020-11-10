@@ -7,5 +7,8 @@ urlpatterns = [
 
     path('compile', views.Compile.as_view()),
 
+    path('exercise', views.ExerciseView.as_view()),
  
 ]
+
+
