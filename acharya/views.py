@@ -17,7 +17,17 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from distutils.ccompiler import new_compiler
+from rest_framework import mixins
+from rest_framework import generics,status,permissions
 
+from rest_framework.views import APIView
+from rest_framework.parsers import JSONParser
+
+
+
+from acharya.serializers import exerciseSerializer
+
+from acharya.models import Exercise
 
 class Courses(generics.GenericAPIView, mixins.ListModelMixin):
     queryset = Courses.objects.all()
@@ -33,6 +43,16 @@ class Subjects(generics.GenericAPIView, mixins.ListModelMixin):
     def get(self, request):
         return self.list(request)
 
+class ExerciseView(generics.ListAPIView):
+
+    serializer_class = exerciseSerializer
+    
+    def get_queryset(self):
+        if self.kwargs:
+            subid = self.kwargs['chapter']
+            return Exercise.objects.filter(chapter=subid)
+        else:
+            return Exercise.objects.all()
 
     
     
@@ -95,7 +115,13 @@ class Compile(APIView):
 
         return Response(resp, status=status.HTTP_201_CREATED)
 
-            
+
+
+
+
+
+
+             
 
 
 
