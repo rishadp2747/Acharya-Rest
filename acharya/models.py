@@ -8,6 +8,18 @@ class Subjects(models.Model):
     name = models.CharField(max_length=100)
     icon = models.FileField(blank=False, null=False)
     course = models.ForeignKey( Courses, on_delete=models.CASCADE)
+
+
+class Syllabus(models.Model):
+    title = models.CharField(max_length=200)
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE)
+
+class Chapters(models.Model):
+    mode = models.CharField(max_length=10)
+    text = models.TextField()
+    author = models.CharField(max_length=100)
+    syllabus = models.ForeignKey(Syllabus, on_delete=models.CASCADE)
+    
 class Exercise(models.Model):
     mode  = models.CharField(max_length=20) #quiz,program
     question = models.TextField(default = "")
@@ -21,3 +33,4 @@ class Exercise(models.Model):
     output5 = models.CharField(max_length=100)
     answer = models.TextField()
     chapter = models.ForeignKey(Chapters, on_delete=models.CASCADE)
+    
